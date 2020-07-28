@@ -161,7 +161,7 @@ def main():
                     help="Frida Script Hooking", metavar="SCIPRT.JS")
     parser.add_option("--fridaserver",
                     action="store_true", help="Start frida server", dest="startfs")
-    parser.add_option("-l", "--list",
+    parser.add_option("--listapp",
                     action="store_true", help="List the installed apps", dest="listapp")    
     options, args = parser.parse_args()
     try:
@@ -182,6 +182,7 @@ def main():
             script = session.create_script(hook.read())
             script.load()
             frida.get_usb_device().resume(pid)
+            sys.stdin.read()
             print('---------------Hook---Done---------------')
             sys.exit(0)
 
