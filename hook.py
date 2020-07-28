@@ -27,30 +27,42 @@ Trace Class/Func & Modify Return Value    _|   #noobteam
 ''')
 
 print ("\033[1;34m[*]___author___: @noobpk\033[1;37m")
-print ("\033[1;34m[*]___version___: 1.0\033[1;37m")
+print ("\033[1;34m[*]___version___: 1.1\033[1;37m")
 print ("")
 
 def start_frida_server():
     fs = "/data/local/tmp/frida-server*"
     isFs = os.system('adb shell ls ' + fs +' 1> /dev/null')
     if (isFs != 0):
-        print("[*] Frida Server Not Found!!")
+        print("\033[1;31m[-] Frida Server Not Found!!\033[1;31m")
     else:
         fsName = os.popen('adb shell ls ' + fs + '| grep frida-server').read()
-        print('[*] Found Frida Server: '+ fsName)
+        print('\033[1;32m[*] Found Frida Server: \033[1;32m'+ fsName)
         isProc = os.popen('adb shell ps | grep frida-server').read()
         if (isProc):
-            print("[*] Frida Server Is Running")
+            print("\033[1;33m[!] Frida Server Is Running\033[1;33m")
         else:
-            print("[*] Start Frida Server ")
-
+            print("[\033[1;32m*] Start Frida Server...\033[1;32m")
             os.system('adb shell chmod +x ' + fs)
             os.system('adb shell ' + fs + ' &')
+            time.sleep(5)
             isProc = os.popen('adb shell ps | grep frida-server').read()
             if (isProc):
-                print("[*] Frida Server Start Success")
+                print("\033[1;32m[*] Frida Server Start Success!!\033[1;32m")
             else:
-                print("[*] Frida Server Start Failed!! Check & Try Again")
+                print("\033[1;31m[-] Frida Server Start Failed!! Check & Try Again\033[1;31m")
+
+def stop_frida_server():
+    fs = "/data/local/tmp/frida-server*"
+    isProc = os.popen('adb shell ps | grep frida-server').read()
+    if (isProc):
+        print("\033[1;32m[*] Found Process Frida Server:\n\033[1;32m" + isProc)
+        print("\033[1;32m[*] Stop Frida Server...\033[1;32m")
+        os.system('adb shell pkill -f ' + fs)
+        time.sleep(5)
+        print("\033[1;32m[*] Stop Frida Server Success!!\033[1;32m")
+    else:
+        print("\033[1;33m[!] Frida Server Not Start\033[1;33m")
 
 def get_usb_iphone():
     Type = 'usb'
@@ -68,7 +80,7 @@ def get_usb_iphone():
     while device is None:
         devices = [dev for dev in device_manager.enumerate_devices() if dev.type == Type]
         if len(devices) == 0:
-            print('Waiting for USB device...')
+            print('[?] Waiting for USB device...')
             changed.wait()
         else:
             device = devices[0]
@@ -123,7 +135,7 @@ def get_applications(device):
     try:
         applications = device.enumerate_applications()
     except Exception as e:
-        sys.exit('Failed to enumerate applications: %s' % e)
+        sys.exit('\033[1;31m[-] Failed to enumerate applications: %s\033[1;31m' % e)
 
     return applications
 
@@ -159,8 +171,10 @@ def main():
                     help="Bundle identifier of the target app", metavar="PACKAGE", action="store", type="string")
     parser.add_option("-s", "--script", dest="script",
                     help="Frida Script Hooking", metavar="SCIPRT.JS")
-    parser.add_option("--fridaserver",
+    parser.add_option("--fs-start",
                     action="store_true", help="Start frida server", dest="startfs")
+    parser.add_option("--fs-stop",
+                    action="store_true", help="Stop frida server", dest="stopfs")
     parser.add_option("--listapp",
                     action="store_true", help="List the installed apps", dest="listapp")    
     options, args = parser.parse_args()
@@ -168,6 +182,10 @@ def main():
         if options.startfs:
             get_usb_iphone()
             start_frida_server()
+
+        elif options.stopfs:
+            get_usb_iphone()
+            stop_frida_server()
 
         elif options.listapp:
             device = get_usb_iphone()
@@ -191,7 +209,7 @@ def main():
             sys.exit(0)
 
     except KeyboardInterrupt:
-        print("[] Bye!!")
+        print("[:)] Bye!!")
         sys.exit(0)
 
 if __name__ == '__main__':

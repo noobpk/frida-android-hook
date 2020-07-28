@@ -5,11 +5,11 @@ For iOS platform: https://github.com/noobpk/frida-ios-hook
 
 ## Update
 
-[Version: 1.0]
+[Version: 1.1]
 
 	[+] Feature: Hook and return value of object
 	
-	[+] Feature: Start frida-server via command
+	[+] Feature: Start/Stop frida-server via options on tool
 	
 	[+] Feature: List installed apps in phone
 
