@@ -96,32 +96,41 @@ def start_frida_server():
         print("\033[1;31m[-] Frida Server Not Found!!\033[1;31m")
     else:
         fsName = os.popen('adb shell ls ' + fs + '| grep frida-server').read()
-        print('\033[1;32m[*] Found Frida Server: \033[1;32m'+ fsName)
+        logger.info('[*] Found Frida Server: '+ fsName)
         isProc = os.popen('adb shell ps | grep frida-server').read()
         if (isProc):
-            print("\033[1;33m[!] Frida Server Is Running\033[1;33m")
+            logger.warning("[!] Frida Server Is Running")
         else:
-            print("[\033[1;32m*] Start Frida Server...\033[1;32m")
+            logger.info("[*] Start Frida Server...")
             os.system('adb shell chmod +x ' + fs)
             os.system('adb shell ' + fs + ' &')
-            time.sleep(5)
+            time.sleep(2)
             isProc = os.popen('adb shell ps | grep frida-server').read()
             if (isProc):
-                print("\033[1;32m[*] Frida Server Start Success!!\033[1;32m")
+                logger.info("[*] Frida Server Start Success!!")
             else:
-                print("\033[1;31m[-] Frida Server Start Failed!! Check & Try Again\033[1;31m")
+                logger.error("[-] Frida Server Start Failed!! Check & Try Again")
 
 def stop_frida_server():
     fs = "/data/local/tmp/frida-server*"
     isProc = os.popen('adb shell ps | grep frida-server').read()
     if (isProc):
-        print("\033[1;32m[*] Found Process Frida Server:\n\033[1;32m" + isProc)
-        print("\033[1;32m[*] Stop Frida Server...\033[1;32m")
+        logger.info("[*] Found Process Frida Server:" + isProc)
+        logger.info("[*] Stop Frida Server...")
         os.system('adb shell pkill -f ' + fs)
-        time.sleep(5)
-        print("\033[1;32m[*] Stop Frida Server Success!!\033[1;32m")
+        time.sleep(2)
+        logger.info("[*] Stop Frida Server Success!!")
     else:
-        print("\033[1;33m[!] Frida Server Not Start\033[1;33m")
+        logger.warning("[!] Frida Server Not Start")
+
+def check_frida_server_run():
+    isProc = os.popen('adb shell ps | grep frida-server').read()
+    if (isProc):
+        return True
+    else:
+        logger.warning("[!] Frida Server Not Start")
+        sys.exit(0)
+
 
 def main():
     try:
@@ -144,7 +153,7 @@ def main():
         parser.add_option("-d", "--dump", action="store_true", help="Dump decrypt application.ipa", dest="dump")
         parser.add_option("-c", "--check-version", action="store_true", help="Check iOS hook for the newest version", dest="checkversion")
         parser.add_option("-u", "--update", action="store_true", help="Update iOS hook to the newest version", dest="update")
-        quick.add_option("-m", "--method", dest="method", type="choice", choices=['app-static','bypass-root','bypass-ssl','i-url-req','i-crypto'],
+        quick.add_option("-m", "--method", dest="method", type="choice", choices=['app-static','bypass-root','bypass-ssl','i-nw-req','i-crypto'],
                         help="__app-static: Static Ananlysis Application(-n)\n\n\r\r__bypass-jb: Bypass Root Detection(-p)\n\n\r\r\r\r\r\r__bypass-ssl: Bypass SSL Pinning(-p)\n\n\n\n\n\n\n\n\n\r\r\r\r\r\r__i-nw-req: Intercept NetworkRequest in App(-p)\n\n\n\n\n\n\n\n\n\r\r\r\r\r\r__i-crypto: Intercept Crypto in App(-p)", metavar="app-static / bypass-root / bypass-ssl / i-nw-req / i-crypto")
         info.add_option("--fs-start",
                         action="store_true", help="Start frida server", dest="startfs")
@@ -176,6 +185,7 @@ def main():
             stop_frida_server()
 
         elif options.listapp:
+            check_frida_server_run()
             device = get_usb_iphone()
             list_applications(device)
 
@@ -232,44 +242,48 @@ def main():
         elif options.package and options.method == "bypass-ssl":
             method = methods[2]
             logger.warning('[!] The Method Is Updating!!')
-            # if os.path.isfile(method):
-            #     logger.info('[*] Bypass SSL Pinning: ')
-            #     logger.info('[*] Spawning: ' + options.package)
-            #     logger.info('[*] Script: ' + method)
-            #     os.system('frida -U -f '+ options.package + ' -l ' + method + ' --no-pause')
-            #     #sys.stdin.read()
-            # else:
-            #     logger.error('[?] Script for method not found!')
+            if os.path.isfile(method):
+                logger.info('[*] Bypass SSL Pinning: ')
+                logger.info('[*] Spawning: ' + options.package)
+                logger.info('[*] Script: ' + method)
+                time.sleep(2)
+                process = frida.get_usb_device().attach(options.package)
+                method = open(method, 'r')
+                script = process.create_script(method.read())
+                script.load()
+                sys.stdin.read()
+            else:
+                logger.error('[?] Script for method not found!')
 
         #Intercept url request in app
-        elif options.name and options.method == "i-url-req":
+        elif options.name and options.method == "i-nw-req":
             method = methods[4]
             logger.warning('[!] The Method Is Updating!!')
-            # if os.path.isfile(method):
-            #     logger.info('[*] Intercept UrlRequest: ')
-            #     logger.info('[*] Attaching: ' + options.name)
-            #     logger.info('[*] Script: ' + method)
-            #     time.sleep(2)
-            #     process = frida.get_usb_device().attach(options.name)
-            #     method = open(method, 'r')
-            #     script = process.create_script(method.read())
-            #     script.load()
-            #     sys.stdin.read()
-            # else:
-            #     logger.error('[?] Script for method not found!')
+            if os.path.isfile(method):
+                logger.info('[*] Intercept NetWork Request: ')
+                logger.info('[*] Attaching: ' + options.name)
+                logger.info('[*] Script: ' + method)
+                time.sleep(2)
+                process = frida.get_usb_device().attach(options.name)
+                method = open(method, 'r')
+                script = process.create_script(method.read())
+                script.load()
+                sys.stdin.read()
+            else:
+                logger.error('[?] Script for method not found!')
 
         #Intercept Crypto Operations
         elif options.package and options.method == "i-crypto":
             method = methods[5]
-            logger.warning('[!] The Method Is Updating!!')
-            # if os.path.isfile(method):
-            #     logger.info('[*] Intercept Crypto Operations: ')
-            #     logger.info('[*] Spawning: ' + options.package)
-            #     logger.info('[*] Script: ' + method)
-            #     os.system('frida -U -f '+ options.package + ' -l ' + method + ' --no-pause')
-            #     #sys.stdin.read()
-            # else:
-            #     logger.error('[?] Script for method not found!')
+            check_frida_server_run()
+            if os.path.isfile(method):
+                logger.info('[*] Intercept Crypto Operations: ')
+                logger.info('[*] Spawning: ' + options.package)
+                logger.info('[*] Script: ' + method)
+                os.system('frida -U -f '+ options.package + ' -l ' + method + ' --no-pause')
+                #sys.stdin.read()
+            else:
+                logger.error('[?] Script for method not found!')
 
         #check newversion
         elif options.checkversion:
