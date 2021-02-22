@@ -3,7 +3,7 @@ A script that helps you trace classes, functions, and modify the return values o
 
 For iOS platform: https://github.com/noobpk/frida-ios-hook
 
-<img width="930" alt="image" src="https://user-images.githubusercontent.com/31820707/88630798-5b83c900-d0db-11ea-8f71-049ac16abd2c.png">
+<img width="544" alt="image" src="https://user-images.githubusercontent.com/31820707/108661418-60d4b500-74fe-11eb-81ed-c164df9ef4a5.png">
 
 ## Update
 
