@@ -34,7 +34,7 @@ print ('''\033[1;31m \n
 ''')
 
 print ("\033[1;34m[*]___author___: @noobpk\033[1;37m")
-print ("\033[1;34m[*]___version___: 1.1\033[1;37m")
+print ("\033[1;34m[*]___version___: 1.2\033[1;37m")
 print ("")
 
 def check_platform():
@@ -131,11 +131,19 @@ def check_frida_server_run():
         logger.warning("[!] Frida Server Not Start")
         sys.exit(0)
 
+def dump_memory(option, process):
+    if option != "-h":
+        cmd = shlex.split("python3 " + "lib/dump/fridump.py " + "-U " + option + ' ' +process)
+        print(cmd)
+    else:
+        cmd = shlex.split("python3 " + "lib/dump/fridump.py " + option)
+    subprocess.call(cmd)
+    sys.exit(0)
 
 def main():
     try:
 
-        usage = "Usage: python3 %prog [options] arg\n\rExample: python3 hook.py -p com.android.vending -s trace_class.js"
+        usage = "[>] python3 %prog [options] arg\n\n\r[>] Example for spawn or attach app with -s(--script) options:\npython3 hook.py -p com.android.calendar / [-n 'Calendar'] -s trace_class.js\n\n\r[>] Example for spawn or attach app with -m(--method) options:\npython3 hook.py -p com.android.calendar / [-n 'Calendar'] -m app-static\n\n\r[>] Example dump memory of application with --dump-memory and -s(--string) options:\npython3 hook.py -p com.android.calendar --dump-memory '-s(--string)'"
         parser = optparse.OptionParser(usage,add_help_option=False)
         info = optparse.OptionGroup(parser,"Information")
         quick = optparse.OptionGroup(parser,"Quick Method")
@@ -150,7 +158,7 @@ def main():
 
         parser.add_option("-s", "--script", dest="script",
                         help="Frida Script Hooking", metavar="SCIPRT.JS")
-        parser.add_option("-d", "--dump", action="store_true", help="Dump decrypt application.ipa", dest="dump")
+        parser.add_option("--dump-memory", action="store", help="Dump memory of application", dest="dumpmemory")
         parser.add_option("-c", "--check-version", action="store_true", help="Check iOS hook for the newest version", dest="checkversion")
         parser.add_option("-u", "--update", action="store_true", help="Update iOS hook to the newest version", dest="update")
         quick.add_option("-m", "--method", dest="method", type="choice", choices=['app-static','bypass-root','bypass-ssl','i-nw-req','i-crypto'],
@@ -174,6 +182,10 @@ def main():
             "method/bypass_root.js", #3
             "method/intercept_nw_request.js", #4
             "method/intercept_crypto.js" #5
+        ]
+
+        libs = [
+            "lib/dump/fridump.py" #0
         ]
 
         if options.startfs:
@@ -300,8 +312,9 @@ def main():
             sys.exit(0)
 
         #dump decrypt application
-        elif options.dump:
-            logger.warning('[!] The Method Is Updating!!')
+        elif options.package and options.dumpmemory:
+            dump_memory(options.dumpmemory, options.package)
+
 
         else:
             logger.warning("[!] Specify the options. use (-h) for more help!")
