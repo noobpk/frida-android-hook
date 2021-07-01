@@ -83,21 +83,21 @@ def run():
     check_platform()
     #check python version
     if sys.version_info < (3, 0):
-        logger.error("[x_x] iOS hook requires Python 3.x")
+        logger.error("[x_x] Android hook requires Python 3.x")
         sys.exit(1)
     else:
         handle_del_log()
         main()
 
-def start_frida_server():
+def start_frida_server(option):
     fs = "/data/local/tmp/frida-server*"
     isFs = os.system('adb shell ls ' + fs +' 1> /dev/null')
     if (isFs != 0):
         print("\033[1;31m[-] Frida Server Not Found!!\033[1;31m")
     else:
-        fsName = os.popen('adb shell ls ' + fs + '| grep frida-server').read()
+        fsName = os.popen('adb shell ls ' + fs + '|' + option).read()
         logger.info('[*] Found Frida Server: '+ fsName)
-        isProc = os.popen('adb shell ps | grep frida-server').read()
+        isProc = os.popen('adb shell ps |' + option).read()
         if (isProc):
             logger.warning("[!] Frida Server Is Running")
         else:
@@ -105,15 +105,15 @@ def start_frida_server():
             os.system('adb shell chmod +x ' + fs)
             os.system('adb shell ' + fs + ' &')
             time.sleep(2)
-            isProc = os.popen('adb shell ps | grep frida-server').read()
+            isProc = os.popen('adb shell ps |' + option).read()
             if (isProc):
                 logger.info("[*] Frida Server Start Success!!")
             else:
                 logger.error("[-] Frida Server Start Failed!! Check & Try Again")
 
-def stop_frida_server():
+def stop_frida_server(option):
     fs = "/data/local/tmp/frida-server*"
-    isProc = os.popen('adb shell ps | grep frida-server').read()
+    isProc = os.popen('adb shell ps |' + option).read()
     if (isProc):
         logger.info("[*] Found Process Frida Server:" + isProc)
         logger.info("[*] Stop Frida Server...")
@@ -124,7 +124,7 @@ def stop_frida_server():
         logger.warning("[!] Frida Server Not Start")
 
 def check_frida_server_run():
-    isProc = os.popen('adb shell ps | grep frida-server').read()
+    isProc = os.popen('adb shell ps |' + option).read()
     if (isProc):
         return True
     else:
@@ -134,7 +134,6 @@ def check_frida_server_run():
 def dump_memory(option, process):
     if option != "-h":
         cmd = shlex.split("python3 " + "lib/dump/fridump.py " + "-U " + option + ' ' +process)
-        print(cmd)
     else:
         cmd = shlex.split("python3 " + "lib/dump/fridump.py " + option)
     subprocess.call(cmd)
@@ -190,11 +189,17 @@ def main():
 
         if options.startfs:
             get_usb_iphone()
-            start_frida_server()
+            if sys.platform == "win32":
+                start_frida_server('FIND /I "frida-server"')
+            else:
+                start_frida_server('grep frida-server')          
 
         elif options.stopfs:
             get_usb_iphone()
-            stop_frida_server()
+            if sys.platform == "win32":
+                stop_frida_server('FIND /I "frida-server"')
+            else:
+                stop_frida_server('grep frida-server')
 
         elif options.listapp:
             check_frida_server_run()
