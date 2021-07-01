@@ -92,7 +92,7 @@ def run():
 def start_frida_server(option):
     fs = "/data/local/tmp/frida-server*"
     isFs = os.system('adb shell ls ' + fs +' 1> /dev/null')
-    if (isFs != 0):
+    if (isFs == 0):
         print("\033[1;31m[-] Frida Server Not Found!!\033[1;31m")
     else:
         fsName = os.popen('adb shell ls ' + fs + '|' + option).read()
