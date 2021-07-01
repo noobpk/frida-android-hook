@@ -123,7 +123,7 @@ def stop_frida_server(option):
     else:
         logger.warning("[!] Frida Server Not Start")
 
-def check_frida_server_run():
+def check_frida_server_run(option):
     isProc = os.popen('adb shell ps |' + option).read()
     if (isProc):
         return True
@@ -202,7 +202,10 @@ def main():
                 stop_frida_server('grep frida-server')
 
         elif options.listapp:
-            check_frida_server_run()
+            if sys.platform == "win32":
+                check_frida_server_run('FIND /I "frida-server"')
+            else:
+                check_frida_server_run('grep frida-server')
             device = get_usb_iphone()
             list_applications(device)
 
