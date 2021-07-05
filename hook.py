@@ -89,15 +89,15 @@ def run():
         handle_del_log()
         main()
 
-def start_frida_server(option):
+def start_frida_server(param_1):
     fs = "/data/local/tmp/frida-server*"
-    isFs = os.system('adb shell ls ' + fs +' 1> /dev/null')
-    if (isFs == 0):
+    isFs = os.system('adb shell ls ' + fs +' 2> /dev/null')
+    if (isFs == 0 | isFs == 256):
         print("\033[1;31m[-] Frida Server Not Found!!\033[1;31m")
     else:
-        fsName = os.popen('adb shell ls ' + fs + '|' + option).read()
+        fsName = os.popen('adb shell ls ' + fs + '|' + param_1).read()
         logger.info('[*] Found Frida Server: '+ fsName)
-        isProc = os.popen('adb shell ps |' + option).read()
+        isProc = os.popen('adb shell ps |' + param_1).read()
         if (isProc):
             logger.warning("[!] Frida Server Is Running")
         else:
@@ -105,15 +105,15 @@ def start_frida_server(option):
             os.system('adb shell chmod +x ' + fs)
             os.system('adb shell ' + fs + ' &')
             time.sleep(2)
-            isProc = os.popen('adb shell ps |' + option).read()
+            isProc = os.popen('adb shell ps |' + param_1).read()
             if (isProc):
                 logger.info("[*] Frida Server Start Success!!")
             else:
                 logger.error("[-] Frida Server Start Failed!! Check & Try Again")
 
-def stop_frida_server(option):
+def stop_frida_server(param):
     fs = "/data/local/tmp/frida-server*"
-    isProc = os.popen('adb shell ps |' + option).read()
+    isProc = os.popen('adb shell ps |' + param).read()
     if (isProc):
         logger.info("[*] Found Process Frida Server:" + isProc)
         logger.info("[*] Stop Frida Server...")
@@ -123,8 +123,8 @@ def stop_frida_server(option):
     else:
         logger.warning("[!] Frida Server Not Start")
 
-def check_frida_server_run(option):
-    isProc = os.popen('adb shell ps |' + option).read()
+def check_frida_server_run(param):
+    isProc = os.popen('adb shell ps |' + param).read()
     if (isProc):
         return True
     else:
@@ -162,6 +162,8 @@ def main():
         parser.add_option("-u", "--update", action="store_true", help="Update iOS hook to the newest version", dest="update")
         quick.add_option("-m", "--method", dest="method", type="choice", choices=['app-static','bypass-root','bypass-ssl','i-nw-req','i-crypto'],
                         help="__app-static: Static Ananlysis Application(-n)\n\n\r\r__bypass-jb: Bypass Root Detection(-p)\n\n\r\r\r\r\r\r__bypass-ssl: Bypass SSL Pinning(-p)\n\n\n\n\n\n\n\n\n\r\r\r\r\r\r__i-nw-req: Intercept NetworkRequest in App(-p)\n\n\n\n\n\n\n\n\n\r\r\r\r\r\r__i-crypto: Intercept Crypto in App(-p)", metavar="app-static / bypass-root / bypass-ssl / i-nw-req / i-crypto")
+        info.add_option("--fs-install",
+                        action="store", help="Install frida server", dest="installfrida", type="string")
         info.add_option("--fs-start",
                         action="store_true", help="Start frida server", dest="startfs")
         info.add_option("--fs-stop",
@@ -186,8 +188,14 @@ def main():
         libs = [
             "lib/dump/fridump.py" #0
         ]
-
-        if options.startfs:
+        if options.installfrida:
+            logger.info("[+] Installing Frida Server...")
+            if os.path.isfile(options.installfrida):
+               os.system('adb push ' + options.installfrida +' /data/local/tmp')
+               logger.info("[+] Install Frida Server Success!!")
+            else:
+               logger.error('[?] Frida Server not found!')
+        elif options.startfs:
             get_usb_iphone()
             if sys.platform == "win32":
                 start_frida_server('FIND /I "frida-server"')
