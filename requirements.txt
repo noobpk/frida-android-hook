@@ -1,0 +1,7 @@
+requests==2.26.0
+frida==15.0.18
+paramiko==2.4.2
+tqdm==4.42.1
+colorlog==4.0.2
+scp==0.13.2
+psutil==5.6.7

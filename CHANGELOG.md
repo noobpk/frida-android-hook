@@ -1,9 +1,11 @@
 # Frida Android Hook ChangeLog
 
-## [Unrelease] - 2022-01-23
+## [Unrelease] - 2022-01-24
 
 ### Added
- 
+- Update frida-scripts
+- Update option listscripts
+
 ### Changed
 - Update README.md
 - Update repo structure
