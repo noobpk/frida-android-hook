@@ -1,3 +1,9 @@
+/* Description: Raptor frida android trace
+ * Mode: S
+ * Version: 1.0
+ * Credit: https://github.com/0xdea/frida-scripts/tree/master/android-snippets
+ * Author: @0xdea
+ */
 /*
  * raptor_frida_android_trace.js - Code tracer for Android
  * Copyright (c) 2017 Marco Ivaldi <raptor@0xdeadbeef.info>

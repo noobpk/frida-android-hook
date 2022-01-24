@@ -149,11 +149,29 @@ def main():
 
         elif options.listscripts:
             path = APP_FRIDA_SCRIPTS
+            description_pattern = " * Description:"
+            mode_pattern = " * Mode:"
+            version_pattern = " * Version:"
+
             if os.path.exists(path):
                 logger.info('[*] List All Scripts: ')
-                for file_name in os.listdir(path):
+                print("# Frida scripts for Android app testing")
+                print(" ")
+                files = os.listdir(path)
+                sorted_files =  sorted(files)
+                i = 0
+                for file_name in sorted_files:
                     if fnmatch.fnmatch(file_name, '*.js'):
-                        print('[*] ' + file_name)
+                        i +=1
+                        f = open(path+file_name, "r")
+                        for line in f:
+                            if re.search(description_pattern, line):
+                                description = re.sub(r'\n', '', line[16:])
+                            if re.search(mode_pattern, line):
+                                mode = re.sub('\s+', '', line[9:])
+                            if re.search(version_pattern, line):
+                                version = re.sub('\s+', '', line[12:])  
+                        print('|%d|%s|%s|%s|%s|' % (i, mode, file_name, description, version))
             else:
                 logger.error('[?] Path frida-script not exists!')
 

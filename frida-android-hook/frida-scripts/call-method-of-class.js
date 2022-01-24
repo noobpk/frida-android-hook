@@ -1,4 +1,9 @@
-//Source: https://11x256.github.io/Frida-hooking-android-part-2/
+/* Description: Call method of class
+ * Mode: S+A
+ * Version: 1.0
+ * Credit: https://11x256.github.io/Frida-hooking-android-part-2/ & https://github.com/interference-security/frida-scripts/tree/master/android
+ * Author: @interference-security
+ */
 
 //Update fully qualified activity class name here
 Java.choose("com.example.app.activity_class_name" , {

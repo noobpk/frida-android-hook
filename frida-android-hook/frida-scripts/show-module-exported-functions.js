@@ -1,3 +1,9 @@
+/* Description: Show module exported function
+ * Mode: S+A
+ * Version: 1.0
+ * Credit: https://github.com/interference-security/frida-scripts/tree/master/android
+ * Author: @interference-security
+ */
 //Twitter: https://twitter.com/xploresec
 //GitHub: https://github.com/interference-security
 function show_specific_module_exported_functions(modulesName)

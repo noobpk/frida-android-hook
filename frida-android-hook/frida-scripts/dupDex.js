@@ -1,3 +1,9 @@
+/* Description: dupDex
+ * Mode: S+A
+ * Version: 1.0
+ * Credit: 
+ * Author: 
+ */
 'use strict';
 //Android O: 
 //ARM32/64: _ZN3art7DexFile10OpenCommonEPKhjRKNSt3__112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEjPKNS_10OatDexFileEbbPS9_PNS0_12VerifyResultE

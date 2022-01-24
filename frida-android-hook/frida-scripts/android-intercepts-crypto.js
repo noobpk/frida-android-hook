@@ -1,3 +1,9 @@
+/* Description: Android Intercepts Crypto Operations
+ * Mode: S+A
+ * Version: 1.0
+ * Credit: https://codeshare.frida.re/@fadeevab/intercept-android-apk-crypto-operations/
+ * Author: @fadeevab
+ */
 /*************************************************************************************
  * Name: Intercepts Crypto Operations
  * OS: Android
