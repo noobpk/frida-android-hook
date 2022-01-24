@@ -1,3 +1,9 @@
+/* Description: Hook method of class
+ * Mode: S+A
+ * Version: 1.0
+ * Credit: https://github.com/interference-security/frida-scripts/tree/master/android
+ * Author: @interference-security
+ */
 Java.perform(function() {
   //enter class name here: example android.security.keystore.KeyGenParameterSpec$Builder
 	//class inside a class is defined using CLASS_NAME$SUB_CLASS_NAME

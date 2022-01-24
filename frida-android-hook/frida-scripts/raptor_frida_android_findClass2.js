@@ -1,3 +1,9 @@
+/* Description: Raptor frida android findclass 2
+ * Mode: S
+ * Version: 1.0
+ * Credit: https://github.com/0xdea/frida-scripts/tree/master/android-snippets
+ * Author: @0xdea
+ */
 /*
  * raptor_frida_android_*.js - Frida snippets for Android
  * Copyright (c) 2017 Marco Ivaldi <raptor@0xdeadbeef.info>

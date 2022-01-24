@@ -1,3 +1,9 @@
+/* Description: Show modules exports
+ * Mode: S+A
+ * Version: 1.0
+ * Credit: https://github.com/interference-security/frida-scripts/tree/master/android
+ * Author: @interference-security
+ */
 //Script to show modules and its exports. Works on both Android and iOS
 function show_modules_exports()
 {
