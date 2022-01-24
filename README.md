@@ -51,18 +51,16 @@ Support both spawn & attach script to process.
 	[*] Quick method:
 
 	-m(--method)		Support commonly used methods
-							app-static(-n)
-							bypass-jb(-p)
-							bypass-ssl(-p)
-							i-url-req(-p)
-							i-crypto(-n)
+					app-static(-n)
+					bypass-jb(-p)
+					bypass-ssl(-p)
+					i-url-req(-p)
+					i-crypto(-n)
 ```
 
-## Update
+## ChangeLog
 
-[Version: 1.2]
-
-	[+] Feature: Dump memory application
+[See Full ChangeLog](https://github.com/noobpk/frida-android-hook/blob/master/CHANGELOG.md)
 
 ## Install & Usage
 
@@ -80,6 +78,33 @@ If you run the script but it doesn't work, you can try the following:
 ```frida -U -f package -l script.js```
 
 ## 📺 Demo Feature
+
+|N|Title|Link|
+|:---|:---|:---|
+|1||
+|2||
+|3||
+
+## Frida Scripts
+
+|N|Spawn/Attach|Script Name| Script Description|
+|:---|:---|:---|:---|
+|1|S+A|android-logcat.js||
+|2|S+A|call-method-of-class.js||
+|3|S+A|hook-method-of-class.js||
+|4|S+A|show-all-classes-methods.js||
+|5|S+A|show-all-classes.js||
+|6|S+A|show-specific-class-methods.js||
+|7|S+A|raptor_frida_android_bypass.js||
+|8|S+A|raptor_frida_android_debug.js||
+|9|S+A|raptor_frida_android_findClass1.js||
+|10|S+A|raptor_frida_android_findClass2.js||
+|11|S+A|raptor_frida_android_lowlevel.js||
+|12|S+A|raptor_frida_android_enum.js||
+|13|S+A|raptor_frida_android_trace.js||
+|14|S+A|show-module-exported-functions.js||
+|15|S+A|show-module-exports.js||
+|16|S+A|android-intercrpts-crypto.js||
 
 
 ## Disclaimer
