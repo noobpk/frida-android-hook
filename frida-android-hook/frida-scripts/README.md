@@ -19,9 +19,11 @@
 |15|S+A|show-module-exports.js||
 |16|S+A|android-intercrpts-crypto.js||
 
-# Credit
+## Credit
 
-[interference-security/frida-scripts](https://github.com/interference-security/frida-scripts/tree/master/android)
-[0xdea/frida-scripts](https://github.com/0xdea/frida-scripts/tree/master/android-snippets)
-[Frida CodeShare](https://codeshare.frida.re/browse)
+➡️ [interference-security/frida-scripts](https://github.com/interference-security/frida-scripts/tree/master/android)
+
+➡️ [0xdea/frida-scripts](https://github.com/0xdea/frida-scripts/tree/master/android-snippets)
+
+➡️ [Frida CodeShare](https://codeshare.frida.re/browse)
 
