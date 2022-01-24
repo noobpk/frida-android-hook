@@ -27,11 +27,11 @@ Support both spawn & attach script to process.
 ```
 [+] Options:
 
-	-p(--package)			Identifier of application ex: com.android.calendar
-	-n(--name) 				Name of application ex: Calendar
-	-s(--script) 			Using script format script.js
+	-p(--package)		Identifier of application ex: com.android.calendar
+	-n(--name) 		Name of application ex: Calendar
+	-s(--script) 		Using script format script.js
 	-c(--check-version) 	Check for the newest version
-	-u(--upadte) 			Update to the newest version
+	-u(--upadte) 		Update to the newest version
 	
 	[*] Dump memory aplication:
 	
@@ -39,23 +39,23 @@ Support both spawn & attach script to process.
 
 	[*] Information:
 
-	--fs-install		Install frida server
+	--fs-install	    Install frida server
 	--fs-start          Start frida server
-    --fs-stop           Stop frida server
-    --list-devices      List All Devices
-    --list-apps         List the installed apps
-    --list-scripts      List All Scripts
-    --logcat            Show system log of device
-    --shell             Get the shell of connect device
+	--fs-stop           Stop frida server
+	--list-devices      List All Devices
+	--list-apps         List the installed apps
+	--list-scripts      List All Scripts
+	--logcat            Show system log of device
+	--shell             Get the shell of connect device
 
 	[*] Quick method:
 
-	-m(--method)		Support commonly used methods
-					app-static(-n)
-					bypass-jb(-p)
-					bypass-ssl(-p)
-					i-url-req(-p)
-					i-crypto(-n)
+	-m(--method)    Support commonly used methods
+				app-static(-n)
+				bypass-jb(-p)
+				bypass-ssl(-p)
+				i-url-req(-p)
+				i-crypto(-n)
 ```
 
 ## ChangeLog
