@@ -1,4 +1,4 @@
-requests==2.26.0
+requests==2.27.1
 frida==15.0.18
 paramiko==2.4.2
 tqdm==4.42.1
