@@ -116,9 +116,8 @@ def main():
 
         parser.add_option("--dump-memory", action="store", help='''Dump memory of application''', dest="dumpmemory")
         
-        quick.add_option("-m", "--method", dest="method", type="choice", choices=['app-static','bypass-root','bypass-ssl','i-nw-req','i-crypto'],
-                        help='''app-static: Static Ananlysis Application(-n)
-                        bypass-jb: Bypass Root Detection(-p)
+        quick.add_option("-m", "--method", dest="method", type="choice", choices=['bypass-root','bypass-ssl','i-nw-req','i-crypto'],
+                        help='''bypass-root: Bypass Root Detection(-p)
                         bypass-ssl: Bypass SSL Pinning(-p)
                         i-nw-req: Intercept NetworkRequest in App(-p)
                         i-crypto: Intercept Crypto in App(-p)''', metavar="METHOD")
@@ -182,6 +181,7 @@ def main():
                logger.info("[+] Install Frida Server Success!!")
             else:
                logger.error('[?] Frida Server not found!')
+
         elif options.startfs:
             get_usb_iphone()
             if sys.platform == "win32":
@@ -236,26 +236,25 @@ def main():
 
         #Bypass jailbreak
         elif options.package and options.method == "bypass-root":
-            method = methods[3]
-            logger.warning('[!] The Method Is Updating!!')
-            # if os.path.isfile(method):
-            #     logger.info('[*] Bypass Jailbreak: ')
-            #     logger.info('[*] Spawning: ' + options.package)
-            #     logger.info('[*] Script: ' + method)
-            #     time.sleep(2)
-            #     pid = frida.get_usb_device().spawn(options.package)
-            #     session = frida.get_usb_device().attach(pid)
-            #     hook = open(method, 'r')
-            #     script = session.create_script(hook.read())
-            #     script.load()
-            #     frida.get_usb_device().resume(pid)
-            #     sys.stdin.read()
-            # else:
-            #     logger.error('[?] Script for method not found!')
+            method = APP_METHODS['Bypass Root Detection']
+            if os.path.isfile(method):
+                logger.info('[*] Bypass Root: ')
+                logger.info('[*] Spawning: ' + options.package)
+                logger.info('[*] Script: ' + method)
+                time.sleep(2)
+                pid = frida.get_usb_device().spawn(options.package)
+                session = frida.get_usb_device().attach(pid)
+                hook = open(method, 'r')
+                script = session.create_script(hook.read())
+                script.load()
+                frida.get_usb_device().resume(pid)
+                sys.stdin.read()
+            else:
+                logger.error('[?] Script for method not found!')
 
         #Bypass SSL Pinning
         elif options.package and options.method == "bypass-ssl":
-            method = methods[2]
+            method = APP_METHODS['Bypass SSL Pinning']
             logger.warning('[!] The Method Is Updating!!')
             if os.path.isfile(method):
                 logger.info('[*] Bypass SSL Pinning: ')
@@ -272,7 +271,7 @@ def main():
 
         #Intercept url request in app
         elif options.name and options.method == "i-nw-req":
-            method = methods[4]
+            method = APP_METHODS['Intercept Network Request']
             logger.warning('[!] The Method Is Updating!!')
             if os.path.isfile(method):
                 logger.info('[*] Intercept NetWork Request: ')
@@ -289,7 +288,7 @@ def main():
 
         #Intercept Crypto Operations
         elif options.package and options.method == "i-crypto":
-            method = methods[5]
+            method = APP_METHODS['Intercept Crypto Operations']
             check_frida_server_run()
             if os.path.isfile(method):
                 logger.info('[*] Intercept Crypto Operations: ')

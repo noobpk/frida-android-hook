@@ -5,7 +5,7 @@
     "author": "noobpk",
     "license": "LICENSE",
     "requirements": "requirements.txt",
-    "fristRun": false,
+    "fristRun": true,
     "packages": {
         "windows": {
             "Android Debug Bridge": "https://dl.google.com/android/repository/platform-tools-latest-windows.zip"
@@ -19,10 +19,10 @@
     },
     "errorLog": "errors.log",
     "methods": {
-        "List All Application": "methods/ios_list_apps.js",
-        "Bypass Jailbreak Detection": "methods/bypass_jailbreak.js",
+        "Bypass Root Detection": "methods/bypass_root.js",
         "Bypass SSL Pinning": "methods/bypass_ssl.js",
-        "Monitor Network Request": "methods/intercept_nw_request.js"
+        "Intercept Network Request": "methods/intercept_nw_request.js",
+        "Intercept Crypto Operations": "methods/intercept_crypto.js"
     },
     "utils": {
         "Dump Memory": "core/utils/dump-memory/fridump.py"
