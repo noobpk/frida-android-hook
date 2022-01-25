@@ -4,4 +4,4 @@ paramiko==2.4.2
 tqdm==4.42.1
 colorlog==4.0.2
 scp==0.13.2
-psutil==5.6.7
+psutil==5.9.0
