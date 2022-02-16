@@ -3,5 +3,5 @@ frida==15.0.18
 paramiko==2.9.2
 tqdm==4.62.3
 colorlog==6.6.0
-scp==0.14.2
+scp==0.14.3
 psutil==5.9.0
