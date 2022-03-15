@@ -108,20 +108,5 @@ class check():
         except Exception as e:
             logger.error("[x_x] Something went wrong, please check your error message.\n Message - {0}".format(e))
 
-    def pswin32():
-        try:
-            if sys.platform == "win32":
-                PROCESSNAME = "iTunes.exe"
-                for proc in psutil.process_iter():
-                    try:
-                        if proc.name() == PROCESSNAME:
-                            return True
-                    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess) as e:
-                        pass
-                return sys.exit(logger.error("[x_x] Please install iTunes on MicrosoftStore or run iTunes frist."))              
-        except Exception as e:
-            logger.error("[x_x] Something went wrong, please check your error message.\n Message - {0}".format(e))
-
 check.initLoad()
 check.platform()
-check.pswin32()
