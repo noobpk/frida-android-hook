@@ -31,7 +31,7 @@ Support both spawn & attach script to process.
 	-n(--name) 		Name of application ex: Calendar
 	-s(--script) 		Using script format script.js
 	-c(--check-version) 	Check for the newest version
-	-u(--upadte) 		Update to the newest version
+	-u(--update) 		Update to the newest version
 	
 	[*] Dump memory aplication:
 	
