@@ -1,5 +1,12 @@
 # Frida Android Hook ChangeLog
 
+## [Unrelease] - 2022-03-17
+
+### Added
+
+### Changed
+- Update androidhook. Check python3 command exists
+
 ## [Unrelease] - 2022-01-24
 
 ### Added
