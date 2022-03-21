@@ -1,6 +1,6 @@
 requests==2.27.1
 frida==15.0.18
-paramiko==2.9.2
+paramiko==2.10.3
 tqdm==4.62.3
 colorlog==6.6.0
 scp==0.14.2
