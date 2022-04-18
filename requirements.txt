@@ -1,5 +1,5 @@
 requests==2.27.1
-frida==15.0.18
+frida==15.1.17
 paramiko==2.10.3
 tqdm==4.62.3
 colorlog==6.6.0
