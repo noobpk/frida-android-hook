@@ -25,16 +25,19 @@ except Exception as e:
 def _buildBinary():
     try:
         if sys.platform == 'darwin':
-            with open('frida-android-hook/androidhook','w+') as f:
-                f encoding='utf_8').write(setup)
+            with open('frida-android-hook/androidhook','w+', encoding="utf-8") as f:
+                f.write(setup)
             os.system('chmod +x frida-android-hook/androidhook')
+            print("[+] Build executable success.")
         elif sys.platform == 'linux':
-            with open('frida-android-hook/androidhook','w+') as f:
-                f encoding='utf_8').write(setup)
+            with open('frida-android-hook/androidhook','w+', encoding="utf-8") as f:
+                f.write(setup)
             os.system('chmod +x frida-android-hook/androidhook')
+            print("[+] Build executable success.")
         elif sys.platform == 'win32':
-            with open('frida-android-hook/androidhook.py','w+') as f:
-                f encoding='utf_8').write(setup)
+            with open('frida-android-hook/androidhook.py','w+', encoding="utf-8") as f:
+                f.write(setup)
+            print("[+] Build executable success.")
     except Exception as e:
         raise e
 
