@@ -255,7 +255,6 @@ def main():
         #Bypass SSL Pinning
         elif options.package and options.method == "bypass-ssl":
             method = APP_METHODS['Bypass SSL Pinning']
-            logger.warning('[!] The Method Is Updating!!')
             if os.path.isfile(method):
                 logger.info('[*] Bypass SSL Pinning: ')
                 logger.info('[*] Spawning: ' + options.package)
@@ -272,7 +271,6 @@ def main():
         #Intercept url request in app
         elif options.name and options.method == "i-nw-req":
             method = APP_METHODS['Intercept Network Request']
-            logger.warning('[!] The Method Is Updating!!')
             if os.path.isfile(method):
                 logger.info('[*] Intercept NetWork Request: ')
                 logger.info('[*] Attaching: ' + options.name)
