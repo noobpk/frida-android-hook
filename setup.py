@@ -25,7 +25,8 @@ except Exception as e:
 def _buildBinary():
     try:
         if sys.platform == 'darwin':
-            open('frida-android-hook/androidhook','w+').write(setup)
+            with open('frida-android-hook/androidhook','w+') as f:
+                f encoding='utf_8').write(setup)
             os.system('chmod +x frida-android-hook/androidhook')
         elif sys.platform == 'linux':
             with open('frida-android-hook/androidhook','w+') as f:
