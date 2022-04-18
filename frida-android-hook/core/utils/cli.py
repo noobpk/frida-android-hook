@@ -1,4 +1,3 @@
-import sys
 import fnmatch
 from cmd import Cmd
 
@@ -7,13 +6,13 @@ from utils.checkversion import *
 from utils.log import *
 from utils.config import *
 
-GLOBLA_CONFIG = config.loadConfig()
+GLOBAL_CONFIG = config.loadConfig()
 
-APP_VERSION = GLOBLA_CONFIG['version']
-APP_CLI_VERSION = GLOBLA_CONFIG['cliVersion']
-APP_FRIDA_SCRIPTS = GLOBLA_CONFIG['fridaScripts']
-APP_METHODS = GLOBLA_CONFIG['methods']
-APP_UTILS = GLOBLA_CONFIG['utils']
+APP_VERSION = GLOBAL_CONFIG['version']
+APP_CLI_VERSION = GLOBAL_CONFIG['cliVersion']
+APP_FRIDA_SCRIPTS = GLOBAL_CONFIG['fridaScripts']
+APP_METHODS = GLOBAL_CONFIG['methods']
+APP_UTILS = GLOBAL_CONFIG['utils']
 
 class AndroidHook_CLI(Cmd):
     try:
@@ -30,7 +29,7 @@ class AndroidHook_CLI(Cmd):
             os.system('frida-ls-devices')
 
         def do_listapps(self, arg):
-            logger.info('[*] List All Apps on Devies: ')
+            logger.info('[*] List All Apps on Devices: ')
             device = get_usb_iphone()
             list_applications(device)
 
