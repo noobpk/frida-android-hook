@@ -1,3 +1,3 @@
-colorlog==4.0.2
-requests==2.26.0
+requests==2.27.1
 frida==15.1.17
+colorlog==6.6.0
