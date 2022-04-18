@@ -43,7 +43,7 @@ def _buildBinary():
 
 if __name__ == '__main__':
     if sys.version_info < (3, 0):
-        print("[x_x] iOS hook requires Python 3.x")
+        print("[x_x] Android hook requires Python 3.x")
         sys.exit(0)
     else:
         _buildBinary()
