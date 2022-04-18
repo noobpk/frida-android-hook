@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import socket
 from shutil import which
 import shlex
 import subprocess
