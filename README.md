@@ -8,7 +8,7 @@
 ## Env OS Support
 | OS      | Supported          | Noted   |
 | ------- | ------------------ | ------- |
-| MacOS   | :white_check_mark: | main	 |
+| Darwin  | :white_check_mark: | main	 |
 | Linux   | :white_check_mark: | sub  	 |
 | Windows | :white_check_mark: | sub	 |
 
@@ -62,16 +62,30 @@ Support both spawn & attach script to process.
 
 [See Full ChangeLog](https://github.com/noobpk/frida-android-hook/blob/master/CHANGELOG.md)
 
-## Install & Usage
+## Install & Build
 
 ```
-1. Git clone https://github.com/noobpk/frida-android-hook
+1. git clone https://github.com/noobpk/frida-android-hook
 2. cd frida-android-hook/
-3. chmod +x androidhook
-4. Start Frida-server: `./androidhook --fs-start`
-5. ./androidhook --help(-h)
-6. rebellion :))
+3. pip3 install -r requirements.txt
+4. python3 setup.py
+4. cd frida-android-hook
+```
 
+### Usage For Windows: 
+
+```
+5.1 Start Frida-server: `python3 androidhook.py --fs-start`
+5.2 python3 androidhook.py --help(-h)
+5.3 rebellion :))
+```
+
+### Usage For Darwin / Linux
+
+```
+6.1 Start Frida-server: `./androidhook --fs-start`
+6.2 ./androidhook --help(-h)
+6.3 rebellion :))
 ```
 
 If you run the script but it doesn't work, you can try the following:

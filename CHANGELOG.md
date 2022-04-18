@@ -1,5 +1,13 @@
 # Frida Android Hook ChangeLog
 
+## [Unrelease] - 2022-04-18
+
+### Add
+- Add setup.py for build executable
+
+### Changed
+- Update Readme.md
+
 ## [Unrelease] - 2022-03-17
 
 ### Added
