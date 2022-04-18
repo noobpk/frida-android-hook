@@ -75,19 +75,17 @@ Support both spawn & attach script to process.
 ### Usage For Windows: 
 
 ```
-5.1 python3 androidhook.py
-5.2 Start Frida-server: `python3 androidhook.py --fs-start`
-5.3 python3 androidhook.py --help(-h)
-5.4 rebellion :))
+5.1 Start Frida-server: `python3 androidhook.py --fs-start`
+5.2 python3 androidhook.py --help(-h)
+5.3 rebellion :))
 ```
 
 ### Usage For Darwin / Linux
 
 ```
-6.1 chmod +x androidhook
-6.2 Start Frida-server: `./androidhook --fs-start`
-6.3 ./androidhook --help(-h)
-6.4 rebellion :))
+6.1 Start Frida-server: `./androidhook --fs-start`
+6.2 ./androidhook --help(-h)
+6.3 rebellion :))
 ```
 
 If you run the script but it doesn't work, you can try the following:
