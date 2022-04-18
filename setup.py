@@ -28,16 +28,16 @@ def _buildBinary():
             with open('frida-android-hook/androidhook','w+', encoding="utf-8") as f:
                 f.write(setup)
             os.system('chmod +x frida-android-hook/androidhook')
-            print("[+] Build executable success.")
+            print("[+] Build executable for Darwin success.")
         elif sys.platform == 'linux':
             with open('frida-android-hook/androidhook','w+', encoding="utf-8") as f:
                 f.write(setup)
             os.system('chmod +x frida-android-hook/androidhook')
-            print("[+] Build executable success.")
+            print("[+] Build executable for Linux success.")
         elif sys.platform == 'win32':
             with open('frida-android-hook/androidhook.py','w+', encoding="utf-8") as f:
                 f.write(setup)
-            print("[+] Build executable success.")
+            print("[+] Build executable for Windows success.")
     except Exception as e:
         raise e
 
