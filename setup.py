@@ -32,7 +32,8 @@ def _buildBinary():
                 f encoding='utf_8').write(setup)
             os.system('chmod +x frida-android-hook/androidhook')
         elif sys.platform == 'win32':
-            open('frida-android-hook/androidhook.py','w+').write(setup)
+            with open('frida-android-hook/androidhook.py','w+') as f:
+                f encoding='utf_8').write(setup)
     except Exception as e:
         raise e
 
