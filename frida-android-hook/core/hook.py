@@ -14,6 +14,7 @@ from utils.checkversion import *
 from utils.log import *
 from utils.config import *
 from utils.cli import *
+from utils.suggestion import *
 
 GLOBAL_CONFIG = config.loadConfig()
 
@@ -35,7 +36,7 @@ def start_frida_server(param_1):
         else:
             logger.info("[*] Start Frida Server...")
             os.system('adb shell chmod +x ' + fs)
-            os.system('adb shell ' + fs + ' &')
+            os.system('adb shell ' + 'su -c ' + fs + ' &')
             time.sleep(2)
             isProc = os.popen('adb shell ps |' + param_1).read()
             if (isProc):
@@ -49,7 +50,7 @@ def stop_frida_server(param):
     if (isProc):
         logger.info("[*] Found Process Frida Server:" + isProc)
         logger.info("[*] Stop Frida Server...")
-        os.system('adb shell pkill -f ' + fs)
+        os.system('adb shell ' + 'su -c ' + 'pkill -f ' + fs)
         time.sleep(2)
         logger.info("[*] Stop Frida Server Success!!")
     else:
@@ -196,6 +197,21 @@ def main():
 
         #Attaching script to application
         elif options.name and options.script:
+            if not os.path.isfile(options.script):
+                logger.warning('[!] Script '+options.script+' not found. Try suggestion in frida-script!')
+                findingScript = suggestion_script(options.script)
+                if (findingScript == False):
+                    logger.error('[x_x] No matching suggestions!')
+                    sys.exit(0)
+                logger.info('[*] iOSHook suggestion use '+findingScript)
+                answer = input('[?] Do you want continue? (y/n): ') or "y"
+                if answer == "y": 
+                    options.script =  APP_FRIDA_SCRIPTS + findingScript
+                elif answer == "n": 
+                    sys.exit(0)
+                else: 
+                    logger.error('[x_x] Nothing done. Please try again!')
+                    sys.exit(0)
             if os.path.isfile(options.script):
                 logger.info('[*] Attaching: ' + options.name)
                 logger.info('[*] Script: ' + options.script)
@@ -210,6 +226,21 @@ def main():
 
         #Spawning application and load script
         elif options.package and options.script:
+            if not os.path.isfile(options.script):
+                logger.warning('[!] Script '+options.script+' not found. Try suggestion in frida-script!')
+                findingScript = suggestion_script(options.script)
+                if (findingScript == False):
+                    logger.error('[x_x] No matching suggestions!')
+                    sys.exit(0)
+                logger.info('[*] iOSHook suggestion use '+findingScript)
+                answer = input('[?] Do you want continue? (y/n): ') or "y"
+                if answer == "y": 
+                    options.script =  APP_FRIDA_SCRIPTS + findingScript
+                elif answer == "n": 
+                    sys.exit(0)
+                else: 
+                    logger.error('[x_x] Nothing done. Please try again!')
+                    sys.exit(0)
             if os.path.isfile(options.script):
                 logger.info('[*] Spawning: ' + options.package)
                 logger.info('[*] Script: ' + options.script)
@@ -240,7 +271,7 @@ def main():
                 frida.get_usb_device().resume(pid)
                 sys.stdin.read()
             else:
-                logger.error('[?] Script for method not found!')
+                logger.error('[x_x] Script for method not found!')
 
         #Bypass SSL Pinning
         elif options.package and options.method == "bypass-ssl":
@@ -256,7 +287,7 @@ def main():
                 script.load()
                 sys.stdin.read()
             else:
-                logger.error('[?] Script for method not found!')
+                logger.error('[x_x] Script for method not found!')
 
         #Intercept url request in app
         elif options.name and options.method == "i-nw-req":
@@ -272,7 +303,7 @@ def main():
                 script.load()
                 sys.stdin.read()
             else:
-                logger.error('[?] Script for method not found!')
+                logger.error('[x_x] Script for method not found!')
 
         #Intercept Crypto Operations
         elif options.package and options.method == "i-crypto":
@@ -285,7 +316,7 @@ def main():
                 os.system('frida -U -f '+ options.package + ' -l ' + method + ' --no-pause')
                 #sys.stdin.read()
             else:
-                logger.error('[?] Script for method not found!')
+                logger.error('[x_x] Script for method not found!')
 
         #check newversion
         elif options.checkversion:
@@ -328,7 +359,7 @@ def main():
 
     #EXCEPTION FOR FRIDA
     except frida.ServerNotRunningError:
-        logger.error("Frida server is not running.")
+        logger.error("[x_x] Frida server is not running.")
     except frida.TimedOutError:
         logger.error("Timed out while waiting for device to appear.")
     except frida.TransportError:

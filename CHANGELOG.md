@@ -1,5 +1,17 @@
 # Frida Android Hook ChangeLog
 
+## [Release 1.3] - 2022-06-21
+
+### Added
+- Add setup.py for build executable
+- Add suggestion script for option -s (--script)
+### Changed
+- Update readme, changelog
+- Update frida-script
+- Update hook.py
+### Fixed
+- Fix syntax in hook.json
+
 ## [Unrelease] - 2022-04-18
 
 ### Add

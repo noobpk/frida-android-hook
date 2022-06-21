@@ -1,6 +1,11 @@
 <img width="544" alt="image" src="https://user-images.githubusercontent.com/31820707/108661418-60d4b500-74fe-11eb-81ed-c164df9ef4a5.png">
 
 # Frida Android hook
+
+[![CodeQL](https://github.com/noobpk/frida-android-hook/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/noobpk/frida-android-hook/actions/workflows/codeql-analysis.yml)
+![python](https://img.shields.io/badge/python-3.x-blue)
+![frida](https://img.shields.io/badge/frida-15.x-orange)
+
 📍 A tool that helps you can easy using frida. It support script for trace classes, functions, and modify the return values of methods on iOS platform.
 
 👉 For iOS platform: [frida-ios-hook](https://github.com/noobpk/frida-ios-hook)
@@ -33,7 +38,7 @@ Support both spawn & attach script to process.
 	-c(--check-version) 	Check for the newest version
 	-u(--update) 		Update to the newest version
 	
-	[*] Dump memory aplication:
+	[*] Dump memory application:
 	
     	--dump-memory         Dump memory of application
 
@@ -60,12 +65,45 @@ Support both spawn & attach script to process.
 
 ## ChangeLog
 
-[See Full ChangeLog](https://github.com/noobpk/frida-android-hook/blob/master/CHANGELOG.md)
-
-## Install & Build
+Version: 1.3
+```
+	[+] Add:
+	
+		[-] Add setup.py for build executable
+				
+		[-] Add suggestion script for option `-s (--script)`
+		
+		
+	[+] Change:
+		
+		[-] Update readme, changelog
+		
+		[-] Update frida-script
+		
+		[-] Update hook.py
+	
+	[+] Fix
+		
+		[-] Fix syntax in hook.json
 
 ```
-1. git clone https://github.com/noobpk/frida-android-hook
+[See Full ChangeLog](https://github.com/noobpk/frida-android-hook/blob/master/CHANGELOG.md)
+
+## Install
+
+```
+	[+] Latest version
+	
+		https://github.com/noobpk/frida-android-hook/releases
+		
+	[+] Develop version
+	
+		git clone -b dev https://github.com/noobpk/frida-android-hook.git
+```
+
+## Build
+
+```
 2. cd frida-android-hook/
 3. pip3 install -r requirements.txt
 4. python3 setup.py

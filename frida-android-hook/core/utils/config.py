@@ -8,7 +8,7 @@ from utils.log import *
 
 APP_AUTHOR = ''
 APP_VERSION = ''
-APP_PLATFORM_SUPORT = ''
+APP_PLATFORM_SUPPORT = ''
 APP_FIRST_RUN = ''
 APP_PACKAGES = ''
 APP_CONFIG = 'core/hook.json'
@@ -17,7 +17,7 @@ class config():
 
     def loadConfig():
 
-        global APP_VERSION, APP_AUTHOR, APP_PLATFORM_SUPORT, APP_FIRST_RUN, APP_PACKAGES
+        global APP_VERSION, APP_AUTHOR, APP_PLATFORM_SUPPORT, APP_FIRST_RUN, APP_PACKAGES
 
         try:
             if os.path.isfile(APP_CONFIG):
@@ -31,8 +31,8 @@ class config():
                 APP_CLI_VERSION = obj['cliVersion']
                 APP_METHODS = obj['methods']
                 APP_UTILS = obj['utils']
-                APP_PLATFORM_SUPORT = obj['platformSupport']
-                APP_FIRST_RUN = obj['fristRun']
+                APP_PLATFORM_SUPPORT = obj['platformSupport']
+                APP_FIRST_RUN = obj['firstRun']
                 APP_PACKAGES = obj['packages']
                 APP_FRIDA_SCRIPTS = obj['fridaScripts']
                 return {
@@ -41,7 +41,7 @@ class config():
                     "author": APP_AUTHOR,
                     "methods": APP_METHODS,
                     "utils": APP_UTILS,
-                    "platformSupport": APP_PLATFORM_SUPORT,
+                    "platformSupport": APP_PLATFORM_SUPPORT,
                     "firstRun": APP_FIRST_RUN,
                     "packages": APP_PACKAGES,
                     "fridaScripts": APP_FRIDA_SCRIPTS
@@ -76,7 +76,7 @@ class check():
         try:
             if APP_FIRST_RUN == True:
                 logger.info("[*] This is the first time you are running AndroidHook. We are need install some package.")
-                if sys.platform == 'darwin12321':
+                if sys.platform == 'darwin':
                     for name, cmd in APP_PACKAGES['darwin'].items():
                         logger.info("[*] Install " + name)
                         cmd = shlex.split("brew install " + cmd)
@@ -86,13 +86,13 @@ class check():
                         logger.info("[*] Install " + name)
                         cmd = shlex.split("sudo apt-get install " + cmd)
                         subprocess.call(cmd)
-                elif sys.platform == 'darwin':
+                elif sys.platform == 'windows':
                     for name, cmd in APP_PACKAGES['windows'].items():
                         logger.warning("[*] You are running AndroidHook on Windows. Please download " + name + " at " + cmd + " then set system variable.!!")
 
                 with open(APP_CONFIG, "r") as f:
                     data = json.load(f)
-                    data['fristRun'] = False
+                    data['firstRun'] = False
 
                 with open(APP_CONFIG, "w") as f:
                     f.write(json.dumps(data, sort_keys=False, indent=4))
@@ -102,7 +102,7 @@ class check():
 
     def platform():
         try:
-            if sys.platform not in APP_PLATFORM_SUPORT:
+            if sys.platform not in APP_PLATFORM_SUPPORT:
                 sys.exit(logger.error("[x_x] Your platform currently does not support."))
         except Exception as e:
             logger.error("[x_x] Something went wrong, please check your error message.\n Message - {0}".format(e))
