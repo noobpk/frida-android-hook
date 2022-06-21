@@ -125,6 +125,7 @@ Version: 1.3
 6.2 ./androidhook --help(-h)
 6.3 rebellion :))
 ```
+[See Full Usage as Wiki](https://github.com/noobpk/frida-android-hook/wiki)
 
 If you run the script but it doesn't work, you can try the following:
 ```frida -U -f package -l script.js```
