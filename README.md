@@ -6,7 +6,7 @@
 ![python](https://img.shields.io/badge/python-3.x-blue)
 ![frida](https://img.shields.io/badge/frida-15.x-orange)
 
-📍 A tool that helps you can easy using frida. It support script for trace classes, functions, and modify the return values of methods on iOS platform.
+📍 A tool that helps you can easy using frida. It support script for trace classes, functions, and modify the return values of methods on Android platform.
 
 👉 For iOS platform: [frida-ios-hook](https://github.com/noobpk/frida-ios-hook)
 
