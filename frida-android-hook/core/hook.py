@@ -158,9 +158,9 @@ def main():
                             if re.search(description_pattern, line):
                                 description = re.sub(r'\n', '', line[16:])
                             if re.search(mode_pattern, line):
-                                mode = re.sub('\s+', '', line[9:])
+                                mode = re.sub(r'\s+', '', line[9:])
                             if re.search(version_pattern, line):
-                                version = re.sub('\s+', '', line[12:])  
+                                version = re.sub(r'\s+', '', line[12:])  
                         print('|%d|%s|%s|%s|%s|' % (i, mode, file_name, description, version))
             else:
                 logger.error('[?] Path frida-script not exists!')
