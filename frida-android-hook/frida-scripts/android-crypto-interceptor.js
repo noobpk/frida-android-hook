@@ -12,16 +12,16 @@
 
 // Custom params
 const MODE = {
-    KeyGenerator: false,
-    KeyPairGenerator: false,
-    SecretKeySpec: false,
-    MessageDigest: false,
-    SecretKeyFactory: false,
-    Signature: false,
-    Cipher: false,
-    Mac: false,
+    KeyGenerator: true,
+    KeyPairGenerator: true,
+    SecretKeySpec: true,
+    MessageDigest: true,
+    SecretKeyFactory: true,
+    Signature: true,
+    Cipher: true,
+    Mac: true,
     KeyGenParameterSpec: true,
-    IvParameterSpec: false
+    IvParameterSpec: true
 };
 
 
