@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 py-env/
 frida_server_tmp/
+tmp/
