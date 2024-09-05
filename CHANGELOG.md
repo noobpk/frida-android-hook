@@ -1,5 +1,17 @@
 # Frida Android Hook ChangeLog
 
+## [Release 1.4] - 2024-09-05
+
+### Added
+- Add new frida scripts
+- Add option --proxy
+### Changed
+- Update readme, changelog
+- Update frida-script
+- Update hook.py
+### Fixed
+- Fix bug
+
 ## [Release 1.3] - 2022-06-21
 
 ### Added

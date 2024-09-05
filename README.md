@@ -22,6 +22,7 @@
 | ------------- | ---------| ----------------- |
 |  8.0 - Api 26 | 14.2.13  | :white_check_mark:|
 |  8.0 - Api 26 | 15.0.18  | :white_check_mark:|
+|  13.0 - Api 33 | 16.4.9  | :white_check_mark:|
 
 ## Feature
 
@@ -52,26 +53,26 @@ Support both spawn & attach script to process.
 	--list-scripts      List All Scripts
 	--logcat            Show system log of device
 	--shell             Get the shell of connect device
+	--proxy             Config global proxy ::3128 and reverse tcp 3128:8080
 
 	[*] Quick method:
 
 	-m(--method)    Support commonly used methods
-				app-static(-n)
-				bypass-jb(-p)
+				bypass-root(-p)
 				bypass-ssl(-p)
-				i-url-req(-p)
-				i-crypto(-n)
+				i-nw-req(-p)
+				i-crypto(-p)
 ```
 
 ## ChangeLog
 
-Version: 1.3
+Version: 1.4
 ```
 	[+] Add:
 	
-		[-] Add setup.py for build executable
+		[-] Add new frida scrips
 				
-		[-] Add suggestion script for option `-s (--script)`
+		[-] Add option `--proxy` for config global proxy on device
 		
 		
 	[+] Change:
@@ -84,7 +85,7 @@ Version: 1.3
 	
 	[+] Fix
 		
-		[-] Fix syntax in hook.json
+		[-] Fix bug
 
 ```
 [See Full ChangeLog](https://github.com/noobpk/frida-android-hook/blob/master/CHANGELOG.md)
