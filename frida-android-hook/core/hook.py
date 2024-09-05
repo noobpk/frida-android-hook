@@ -7,7 +7,6 @@ import subprocess
 import re
 import fnmatch
 import shlex
-import subprocess
 
 from utils.listapp import *
 from utils.checkversion import *
@@ -46,15 +45,32 @@ def start_frida_server(param_1):
 
 def stop_frida_server(param):
     fs = "/data/local/tmp/frida-server*"
-    isProc = os.popen('adb shell ps |' + param).read()
-    if (isProc):
-        logger.info("[*] Found Process Frida Server:" + isProc)
+    
+    # Check if the Frida server process is running
+    isProc = subprocess.getoutput(f'adb shell ps | {param}')
+    
+    if isProc:
+        logger.info("[*] Found Process Frida Server: " + isProc)
         logger.info("[*] Stop Frida Server...")
-        os.system('adb shell ' + 'su -c ' + 'pkill -f ' + fs)
+
+        # Try to stop the Frida server with su privilege
+        result = subprocess.run(f'adb shell su -c "pkill -f {fs}"', shell=True)
+        
+        # Check if the su command was successful
+        if result.returncode != 0:
+            logger.error("[!] Failed to stop Frida Server with su -c")
+            # Retry without su
+            logger.info("[*] Try to stop Frida Server withou su...")
+            result = subprocess.run(f'adb shell pkill -f {fs}', shell=True)
+            
+            if result.returncode != 0:
+                logger.error("[!] Failed to stop Frida Server")
+                return
+        
         time.sleep(2)
         logger.info("[*] Stop Frida Server Success!!")
     else:
-        logger.warning("[!] Frida Server Not Start")
+        logger.warning("[!] Frida Server Not Started")
 
 def check_frida_server_run(param):
     isProc = os.popen('adb shell ps |' + param).read()
@@ -127,6 +143,7 @@ def main():
                         action="store_true", help="List All Scripts", dest="listscripts")
         info.add_option("--logcat", action="store_true", help="Show system log of device", dest="logcat")
         info.add_option("--shell", action="store_true", help="Get the shell of connect device", dest="shell")
+        info.add_option("--proxy", action="store_true", help="Config global proxy ::3128 and reverse tcp 3128:8080", dest="proxy")
 
         parser.add_option_group(info)
         parser.add_option_group(quick)
@@ -203,7 +220,7 @@ def main():
                 if (findingScript == False):
                     logger.error('[x_x] No matching suggestions!')
                     sys.exit(0)
-                logger.info('[*] iOSHook suggestion use '+findingScript)
+                logger.info('[*] androidhook suggestion use '+findingScript)
                 answer = input('[?] Do you want continue? (y/n): ') or "y"
                 if answer == "y": 
                     options.script =  APP_FRIDA_SCRIPTS + findingScript
@@ -232,7 +249,7 @@ def main():
                 if (findingScript == False):
                     logger.error('[x_x] No matching suggestions!')
                     sys.exit(0)
-                logger.info('[*] iOSHook suggestion use '+findingScript)
+                logger.info('[*] androidhook suggestion use '+findingScript)
                 answer = input('[?] Do you want continue? (y/n): ') or "y"
                 if answer == "y": 
                     options.script =  APP_FRIDA_SCRIPTS + findingScript
@@ -298,7 +315,6 @@ def main():
                 logger.info('[*] Intercept NetWork Request: ')
                 logger.info('[*] Attaching: ' + options.name)
                 logger.info('[*] Script: ' + method)
-                time.sleep(2)
                 process = frida.get_usb_device().attach(options.name)
                 method = open(method, 'r')
                 script = process.create_script(method.read())
@@ -310,13 +326,18 @@ def main():
         #Intercept Crypto Operations
         elif options.package and options.method == "i-crypto":
             method = APP_METHODS['Intercept Crypto Operations']
-            check_frida_server_run()
             if os.path.isfile(method):
                 logger.info('[*] Intercept Crypto Operations: ')
                 logger.info('[*] Spawning: ' + options.package)
                 logger.info('[*] Script: ' + method)
-                os.system('frida -U -f '+ options.package + ' -l ' + method + ' --no-pause')
-                #sys.stdin.read()
+                time.sleep(2)
+                pid = frida.get_usb_device().spawn(options.package)
+                session = frida.get_usb_device().attach(pid)
+                hook = open(method, 'r')
+                script = session.create_script(hook.read())
+                script.load()
+                frida.get_usb_device().resume(pid)
+                sys.stdin.read()
             else:
                 logger.error('[x_x] Script for method not found!')
 
@@ -325,7 +346,7 @@ def main():
             logger.info('[*] Checking for updates...')
             is_newest = check_version(speak=True)
             # if not is_newest:
-            #     logger.info('[*] There is an update available for iOS hook')
+            #     logger.info('[*] There is an update available for androidhook')
 
         #update newversion
         elif options.update:
@@ -338,22 +359,36 @@ def main():
         elif options.package and options.dumpmemory:
             dump_memory(options.dumpmemory, options.package)
 
-        #ios system log
+        #android system log
         elif options.logcat:
             cmd = shlex.split('adb logcat')
             subprocess.call(cmd)
             sys.exit(0)
 
-        #ios get the shell
+        #android get the shell
         elif options.shell:
             cmd = shlex.split('adb shell')
             subprocess.call(cmd)
             sys.exit(0)
 
-        #ioshook cli
+        #androidhook cli
         elif options.cli:
             logger.info("Welcome to AndroidHook CLI! Type ? to list commands")
             AndroidHook_CLI().cmdloop()
+
+        #androidhook proxy
+        elif options.proxy:
+            cmd1 = shlex.split('adb shell settings put global http_proxy 127.0.0.1:3128')
+            cmd2 = shlex.split('adb reverse tcp:3128 tcp:8080')
+
+            logger.info("[*] Config device global proxy to ::3128")
+            subprocess.call(cmd1)
+
+            logger.info("[*] Config reverse tcp from device to machine 3128:8080")
+            subprocess.call(cmd2)
+
+            logger.info("[*] Config success - Using proxy 127.0.0.1:8080")
+            sys.exit(0)
 
         else:
             logger.warning("[!] Specify the options. use (-h) for more help!")
